@@ -6,8 +6,6 @@ Created on Mon Feb 19 11:34:45 2018
 """
 
 from tkinter import *
-import random
-import time
 
 
 root = Tk ()
