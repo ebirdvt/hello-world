@@ -30,7 +30,7 @@ def medication():
 
     #This is the first Question
     Bar = Scrollbar (f)
-    T = Listbox (f, fg='white', bg='blue', yscrollcommand = Bar.set, width = 50, height = 20)
+    T = Listbox (f, fg='white', bg='blue', yscrollcommand = Bar.set, width = 50, height = 50)
     Bar.config (command = T.yview)
     T.grid (row = 0, column = 0, columnspan = 2, sticky = "nsew")
     Bar.grid (row = 0, column = 2, sticky = "ns")
@@ -53,9 +53,9 @@ def medication():
         e.delete (0, END)
         if answer1=="1":       
             T.insert (END, "Support:")
-            T.insert (END, "    Good Job! Text 0 to end conversation")
-            send.config (command = answer2)
-            root.bind ("<Return>", lambda event: answer2 ())
+            T.insert (END, "    Good Job! Have a good day!")
+            send.config (text = "OK", command = root.destroy)
+            root.bind ("<Return>", lambda event: root.destroy ())
 
         elif answer1=="2":
             T.insert (END, "Support:")
@@ -64,11 +64,32 @@ def medication():
             T.insert (END, "    3= Did it have bad side effects?")
             send.config (command = answer2)
             root.bind ("<Return>", lambda event: answer2 ())
-
+        
         else:
             T.insert (END, "Support:")
             T.insert (END, "    I did not understand your response.")
+            T.insert (END, "    Please try again.")
+            T.insert (END, "Support:")
+            T.insert (END, "    Did you take your medicine?")
+            T.insert (END, "    1= Yes")
+            T.insert (END, "    2= No")
+            answer1 = e.get()
+            T.insert (END, "Patient: " + answer1)
+            e.delete (0, END)
+            if answer1=="1":       
+                T.insert (END, "Support:")
+                T.insert (END, "    Good Job! Have a good day!")
+                send.config (text = "OK", command = root.destroy)
+                root.bind ("<Return>", lambda event: root.destroy ())
 
+            elif answer1=="2":
+                T.insert (END, "Support:")
+                T.insert (END, "    1= Did you forget?")
+                T.insert (END, "    2= Did you run out of medicine?")
+                T.insert (END, "    3= Did it have bad side effects?")
+                send.config (command = answer2)
+                root.bind ("<Return>", lambda event: answer2 ())
+                
         return answer1
 
     #Make a Send button to send the answer from the entry box to the definition of answer1 
@@ -78,7 +99,7 @@ def medication():
     #This is the second question
 
     def save ():
-        with open ("Log - %s.txt" % str (datetime.datetime.now ()).replace (":", "."), "w") as f: f.write ("\n".join (T.get (0, END)))
+        with open ("Medication Log - %s.txt" % str (datetime.datetime.now ()).replace (":", "."), "w") as f: f.write ("\n".join (T.get (0, END)))
     
     def answer2():
         """ What to do with the answer in the entry box"""
@@ -86,15 +107,7 @@ def medication():
         T.insert (END, "Patient: " + answer2)
         e.delete (0, END)
         #This is the response to the second entry box
-        if answer2=="0":
-            T.insert (END, "Support:")
-            T.insert (END, "    Have a good day.")
-            send.config (text = "OK", command = root.destroy)
-            root.bind ("<Return>", lambda event: root.destroy ())
-            save ()
-            e.pack_forget ()
-
-        elif answer2=="1":
+        if answer2=="1":
             T.insert (END, "Support:")
             T.insert (END, "    Take it as your earliest convience.")
             T.insert (END, "    Do Not Take two doses at once!")
@@ -125,10 +138,47 @@ def medication():
         else:
             T.insert (END, "Support:")
             T.insert (END, "    I did not understand your response.")
+            T.insert (END, "    Please try again.")
+            T.insert (END, "Support:")
+            T.insert (END, "    1= Did you forget?")
+            T.insert (END, "    2= Did you run out of medicine?")
+            T.insert (END, "    3= Did it have bad side effects?")
+            answer2 = e.get()
+            T.insert (END, "Patient: " + answer2)
+            e.delete (0, END)
+            #This is the response to the second entry box
+            if answer2=="1":
+                T.insert (END, "Support:")
+                T.insert (END, "    Take it as your earliest convience.")
+                T.insert (END, "    Do Not Take two doses at once!")
+                root.bind ("<Return>", lambda event: root.destroy ())
+                send.config (text = "OK", command = root.destroy)
+                save ()
+                e.pack_forget ()
+
+            elif answer2=="2":
+                T.insert (END, "Support:")
+                T.insert (END, "    Please contact your doctor or")
+                T.insert (END, "    pharmacy for refills.\n")
+                root.bind ("<Return>", lambda event: root.destroy ())
+                send.config (text = "OK", command = root.destroy)
+                save ()
+                e.pack_forget ()
+
+            elif answer2=="3":
+                T.insert (END, "Support:")
+                T.insert (END, "    Please contact your doctor about")
+                T.insert (END, "    changing your medications or")
+                T.insert (END, "    dealing with your symptoms.")
+                root.bind ("<Return>", lambda event: root.destroy ())
+                send.config (text = "OK", command = root.destroy)
+                save ()
+                e.pack_forget ()
 
         return answer2
 
         root.mainloop()
+        
     return medication
 
 button1 = Button(f1, text="Medication", command=medication)
@@ -148,7 +198,7 @@ def appointment():
 
     #This is the first Question
     Bar = Scrollbar (f)
-    T = Listbox (f, fg='white', bg='blue', yscrollcommand = Bar.set, width = 50, height = 20)
+    T = Listbox (f, fg='white', bg='blue', yscrollcommand = Bar.set, width = 50, height = 50)
     Bar.config (command = T.yview)
     T.grid (row = 0, column = 0, columnspan = 2, sticky = "nsew")
     Bar.grid (row = 0, column = 2, sticky = "ns")
@@ -166,7 +216,7 @@ def appointment():
     e.grid (row = 1, column = 0, sticky = "ew")
 
     def save ():
-        with open ("Log - %s.txt" % str (datetime.datetime.now ()).replace (":", "."), "w") as f: f.write ("\n".join (T.get (0, END)))
+        with open ("Appointmnet Log - %s.txt" % str (datetime.datetime.now ()).replace (":", "."), "w") as f: f.write ("\n".join (T.get (0, END)))
 
     def answer1():
         """ What to do with the answer in the entry box"""
@@ -192,7 +242,31 @@ def appointment():
         else:
             T.insert (END, "Support:")
             T.insert (END, "    I did not understand your response.")
+            T.insert (END, "    Please try again.")
+            T.insert (END, "Support:")
+            T.insert (END, "    Remember your appointment is on")
+            T.insert (END, "    6/5/18 at 10:30am at location A.")
+            T.insert (END, "    1= Confirm appointment")
+            T.insert (END, "    2= Reschedule")
+            answer1 = e.get()
+            T.insert (END, "Patient: " + answer1)
+            e.delete (0, END)
+            if answer1=="1":       
+                T.insert (END, "Support:")
+                T.insert (END, "    Thank you. See you then.")
+                send.config (text = "OK", command = root.destroy)
+                root.bind ("<Return>", lambda event: root.destroy ())
+                save ()
+                e.pack_forget ()
 
+            elif answer1=="2":
+                T.insert (END, "Support:")
+                T.insert (END, "    The Nurse will contact you to reschedule.")
+                root.bind ("<Return>", lambda event: root.destroy ())
+                send.config (text = "OK", command = root.destroy)
+                save ()
+                e.pack_forget ()
+                
         return answer1
 
     #Make a Send button to send the answer from the entry box to the definition of answer1 
@@ -218,7 +292,7 @@ def prescription():
 
     #This is the first Question
     Bar = Scrollbar (f)
-    T = Listbox (f, fg='white', bg='blue', yscrollcommand = Bar.set, width = 50, height = 20)
+    T = Listbox (f, fg='white', bg='blue', yscrollcommand = Bar.set, width = 50, height = 50)
     Bar.config (command = T.yview)
     T.grid (row = 0, column = 0, columnspan = 2, sticky = "nsew")
     Bar.grid (row = 0, column = 2, sticky = "ns")
@@ -236,7 +310,7 @@ def prescription():
     e.grid (row = 1, column = 0, sticky = "ew")
 
     def save ():
-        with open ("Log - %s.txt" % str (datetime.datetime.now ()).replace (":", "."), "w") as f: f.write ("\n".join (T.get (0, END)))
+        with open ("Prescription Log - %s.txt" % str (datetime.datetime.now ()).replace (":", "."), "w") as f: f.write ("\n".join (T.get (0, END)))
 
     def answer1():
         """ What to do with the answer in the entry box"""
@@ -262,6 +336,30 @@ def prescription():
         else:
             T.insert (END, "Support:")
             T.insert (END, "    I did not understand your response.")
+            T.insert (END, "    Please try again.")
+            T.insert (END, "Support:")
+            T.insert (END, "    Your prescription is ready for pick-up.")
+            T.insert (END, "    Please get it at your earliest convience.")
+            T.insert (END, "    1= Confirm read message.")
+            T.insert (END, "    2= Didn't need a refill.")
+            answer1 = e.get()
+            T.insert (END, "Patient: " + answer1)
+            e.delete (0, END)
+            if answer1=="1":       
+                T.insert (END, "Support:")
+                T.insert (END, "    Thank you. Have a good day.")
+                send.config (text = "OK", command = root.destroy)
+                root.bind ("<Return>", lambda event: root.destroy ())
+                save ()
+                e.pack_forget ()
+            
+            elif answer1=="2":
+                T.insert (END, "Support:")
+                T.insert (END, "    Sorry for the error.")
+                root.bind ("<Return>", lambda event: root.destroy ())
+                send.config (text = "OK", command = root.destroy)
+                save ()
+                e.pack_forget ()
 
         return answer1
 
@@ -289,7 +387,7 @@ def side_effects():
 
     #This is the first Question
     Bar = Scrollbar (f)
-    T = Listbox (f, fg='white', bg='blue', yscrollcommand = Bar.set, width = 50, height = 20)
+    T = Listbox (f, fg='white', bg='blue', yscrollcommand = Bar.set, width = 50, height = 50)
     Bar.config (command = T.yview)
     T.grid (row = 0, column = 0, columnspan = 2, sticky = "nsew")
     Bar.grid (row = 0, column = 2, sticky = "ns")
@@ -306,7 +404,7 @@ def side_effects():
     e.grid (row = 1, column = 0, sticky = "ew")
 
     def save ():
-        with open ("Log - %s.txt" % str (datetime.datetime.now ()).replace (":", "."), "w") as f: f.write ("\n".join (T.get (0, END)))
+        with open ("Side Effect Log - %s.txt" % str (datetime.datetime.now ()).replace (":", "."), "w") as f: f.write ("\n".join (T.get (0, END)))
 
     def answer1():
         """ What to do with the answer in the entry box"""
@@ -332,7 +430,30 @@ def side_effects():
         else:
             T.insert (END, "Support:")
             T.insert (END, "    I did not understand your response.")
-        
+            T.insert (END, "    Please try again.")
+            T.insert (END, "Support:")
+            T.insert (END, "    Are you having bad side effects from your medicine?")
+            T.insert (END, "    1= Yes")
+            T.insert (END, "    2= No")
+            answer1 = e.get()
+            T.insert (END, "Patient: " + answer1)
+            e.delete (0, END)
+            if answer1=="1":       
+                T.insert (END, "Support:")
+                T.insert (END, "    The Nurse will contact you.")
+                send.config (text = "OK", command = root.destroy)
+                root.bind ("<Return>", lambda event: root.destroy ())
+                save ()
+                e.pack_forget ()
+            
+            elif answer1=="2":
+                T.insert (END, "Support:")
+                T.insert (END, "    I'm glad to hear you aren't having bad side effects.")
+                root.bind ("<Return>", lambda event: root.destroy ())
+                send.config (text = "OK", command = root.destroy)
+                save()
+                e.pack_forget ()
+            
         return answer1
 
     #Make a Send button to send the answer from the entry box to the definition of answer1 
@@ -359,7 +480,7 @@ def patient_initiated():
 
     #This is the beginning of the conversation
     Bar = Scrollbar (f)
-    T = Listbox (f, fg='white', bg='blue', yscrollcommand = Bar.set, width = 50, height = 20)
+    T = Listbox (f, fg='white', bg='blue', yscrollcommand = Bar.set, width = 50, height = 50)
     Bar.config (command = T.yview)
     T.grid (row = 0, column = 0, columnspan = 2, sticky = "nsew")
     Bar.grid (row = 0, column = 2, sticky = "ns")
@@ -387,6 +508,18 @@ def patient_initiated():
         else:
             T.insert (END, "Support:")
             T.insert (END, "    I did not understand your response.")
+            T.insert (END, "    Were you trying to contact us for help?")
+            T.insert (END, "    Please text 77.")
+            start_convo = e.get()
+            T.insert (END, "Patient: " + start_convo)
+            e.delete (0, END)
+            if start_convo=="77":       
+                T.insert (END, "Support:")
+                T.insert (END, "    1= Need to talk to the Nurse.")
+                T.insert (END, "    2= Need to reschedule an appoinment.")
+                T.insert (END, "    3= Need a medication refill.")
+                send.config (command = answer2)
+                root.bind ("<Return>", lambda event: answer2 ())
 
         return start_convo
 
@@ -397,7 +530,7 @@ def patient_initiated():
     #This is the second question
 
     def save ():
-        with open ("Log - %s.txt" % str (datetime.datetime.now ()).replace (":", "."), "w") as f: f.write ("\n".join (T.get (0, END)))
+        with open ("Patient Log - %s.txt" % str (datetime.datetime.now ()).replace (":", "."), "w") as f: f.write ("\n".join (T.get (0, END)))
     
     def answer2():
         """ What to do with the answer in the entry box"""
@@ -432,6 +565,38 @@ def patient_initiated():
         else:
             T.insert (END, "Support:")
             T.insert (END, "    I did not understand your response.")
+            T.insert (END, "    Please try again.")
+            T.insert (END, "Support:")
+            T.insert (END, "    1= Need to talk to the Nurse.")
+            T.insert (END, "    2= Need to reschedule an appoinment.")
+            T.insert (END, "    3= Need a medication refill.")
+            answer2 = e.get()
+            T.insert (END, "Patient: " + answer2)
+            e.delete (0, END)
+            #This is the response to the second entry box
+            if answer2=="1":
+                T.insert (END, "Support:")
+                T.insert (END, "    The Nurse will contact you.")
+                send.config (text = "OK", command = root.destroy)
+                root.bind ("<Return>", lambda event: root.destroy ())
+                save ()
+                e.pack_forget ()
+
+            elif answer2=="2":
+                T.insert (END, "Support:")
+                T.insert (END, "    The Nurse will contact you.")
+                root.bind ("<Return>", lambda event: root.destroy ())
+                send.config (text = "OK", command = root.destroy)
+                save ()
+                e.pack_forget ()
+
+            elif answer2=="3":
+                T.insert (END, "Support:")
+                T.insert (END, "    The Nurse will contact you.")
+                root.bind ("<Return>", lambda event: root.destroy ())
+                send.config (text = "OK", command = root.destroy)
+                save ()
+                e.pack_forget ()
 
         return answer2
 
@@ -443,3 +608,4 @@ button5 = Button(f1, text="Patient Initiated", command=patient_initiated)
 button5.grid(row = 5, column = 1, columnspan = 2)
 
 tk.mainloop()
+
